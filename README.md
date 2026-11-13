@@ -2,8 +2,8 @@
 
 Receipt OCR provides two ways to extract text from receipt images:
 
-- **Structured extraction** with the `receipt-ocr` Python package and an
-  OpenAI-compatible vision model. Ollama with `qwen2.5vl:3b` is the default.
+- **Structured extraction** with the `receipt-ocr` Python package and a local
+  Ollama vision model.
 - **Raw text extraction** with the Tesseract-based command-line tool.
 
 ## Structured extraction
@@ -25,9 +25,9 @@ The default provider uses a local Ollama server. Install
 ollama pull qwen2.5vl:3b
 ```
 
-Keep Ollama running while processing receipts. To use another OpenAI-compatible
-provider, set `OPENAI_API_KEY`, `OPENAI_BASE_URL`, and `OPENAI_MODEL` for that
-provider.
+Keep Ollama running while processing receipts. To use another Ollama model, set
+`OLLAMA_MODEL` or pass `--model` to the CLI. `OLLAMA_BASE_URL` can point to
+another Ollama server.
 
 ### Run the CLI
 

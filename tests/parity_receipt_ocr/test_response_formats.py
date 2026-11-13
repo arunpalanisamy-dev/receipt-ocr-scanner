@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Integration test script for testing different response format types.
-
-This script tests the receipt OCR processor with various response
-formats. Run this script when you have the necessary API credentials
-set.
-"""
+"""Integration test script for Ollama response format types."""
 
 import json
 import sys
@@ -31,8 +26,8 @@ def main():
         ],
     }
 
-    # Proper JSON Schema for OpenAI json_schema format
-    openai_json_schema = {
+    # Proper JSON Schema for structured Ollama responses.
+    structured_json_schema = {
         "type": "object",
         "properties": {
             "merchant_name": {"type": "string"},
@@ -74,7 +69,7 @@ def main():
     )
     results["json_schema"] = processor.process_receipt(
         "images/receipt.jpg",
-        openai_json_schema,
+        structured_json_schema,
         response_format_type="json_schema",
     )
     results["text"] = processor.process_receipt(

@@ -40,7 +40,7 @@ def test_main_with_custom_schema(
             "--schema_path",
             str(schema_path),
             "--model",
-            "gpt-4",
+            "qwen2.5vl:3b",
         ],
     ):
         with patch("builtins.print") as mock_print:
@@ -53,7 +53,7 @@ def test_main_with_custom_schema(
     mock_processor_instance.process_receipt.assert_called_once_with(
         str(image_path),
         {"type": "object", "properties": {"test": {"type": "string"}}},
-        "gpt-4",
+        "qwen2.5vl:3b",
     )
     mock_print.assert_called_once_with(json.dumps({"test": "value"}, indent=4))
 

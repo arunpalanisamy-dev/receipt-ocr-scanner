@@ -1,6 +1,6 @@
 # Receipt OCR API
 
-A **FastAPI** service that extracts structured data from receipt images using a local Ollama vision model by default. OpenAI-compatible cloud services can also be configured.
+A **FastAPI** service that extracts structured data from receipt images using a local Ollama vision model.
 
 ## Features
 
@@ -52,7 +52,7 @@ docker compose -f app\docker-compose.yml exec ollama ollama pull qwen2.5vl:3b
 
 The Docker model is stored in a named volume and only needs to be pulled once.
 
-To select another Ollama vision model, set `OPENAI_MODEL` in your environment. For a cloud provider, set `OPENAI_BASE_URL`, `OPENAI_API_KEY`, and `OPENAI_MODEL`.
+To select another Ollama vision model or server for local development, set `OLLAMA_MODEL` or `OLLAMA_BASE_URL` in your environment. Docker Compose points the API at its Ollama service automatically; `OLLAMA_MODEL` can be set in the environment to choose another model.
 
 ### 4. Test the API
 
@@ -105,11 +105,8 @@ Extract structured data from a receipt image.
 
 ## Configuration
 
-The API uses the following environment variables:
-
-- `OPENAI_API_KEY`: API key for the configured provider; Ollama accepts the placeholder `ollama`
-- `OPENAI_MODEL`: Model to use (default: `qwen2.5vl:3b`)
-- `OPENAI_BASE_URL`: OpenAI-compatible API URL (default: `http://localhost:11434/v1`)
+The API uses Ollama. For local development, `OLLAMA_BASE_URL` defaults to
+`http://localhost:11434/v1` and `OLLAMA_MODEL` defaults to `qwen2.5vl:3b`.
 
 ## Development
 

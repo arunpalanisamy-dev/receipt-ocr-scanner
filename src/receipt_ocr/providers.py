@@ -1,4 +1,4 @@
-"""OpenAI-compatible model provider with local Ollama defaults."""
+"""Ollama-backed structured receipt provider."""
 
 import json
 import os
@@ -32,10 +32,12 @@ class LLMProvider(ABC):
 class OpenAIProvider(LLMProvider):
     """Ollama provider accessed through its OpenAI-compatible API."""
 
-    def __init__(self):
+    def __init__(self, base_url: Optional[str] = None):
         """Initialize a provider for the configured local Ollama server."""
         self.api_key = "ollama"
-        self.base_url = os.getenv("OLLAMA_BASE_URL", _DEFAULT_OLLAMA_BASE_URL)
+        self.base_url = (
+            base_url or os.getenv("OLLAMA_BASE_URL") or _DEFAULT_OLLAMA_BASE_URL
+        )
         self.client = OpenAI(api_key=self.api_key, base_url=self.base_url)
 
     def get_response(

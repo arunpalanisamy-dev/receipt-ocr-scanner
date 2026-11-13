@@ -1,6 +1,7 @@
 """FastAPI endpoints for structured receipt extraction."""
 
 import json
+import os
 from typing import Optional
 
 from dotenv import load_dotenv
@@ -8,15 +9,19 @@ from fastapi import FastAPI, HTTPException, UploadFile, Form
 from fastapi.responses import JSONResponse
 
 from receipt_ocr.processors import ReceiptProcessor
+from receipt_ocr.providers import OpenAIProvider
 
 load_dotenv()
 
 # Initialize processor once (not on each request)
-processor = ReceiptProcessor()
+processor = ReceiptProcessor(
+    OpenAIProvider(base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434/v1"))
+)
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5vl:3b")
 
 app = FastAPI(
     title="Receipt OCR API",
-    description="Extract structured data from receipt images using LLM",
+    description="Extract structured data from receipt images using Ollama",
     version="1.0.0",
 )
 
@@ -96,7 +101,9 @@ async def ocr_receipt(
                 )
 
         # Process the receipt using the processor
-        result = processor.process_receipt(image_bytes, schema_to_use)
+        result = processor.process_receipt(
+            image_bytes, schema_to_use, model=OLLAMA_MODEL
+        )
         return JSONResponse(content=result, status_code=200)
 
     except HTTPException:

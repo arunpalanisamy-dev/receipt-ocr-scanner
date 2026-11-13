@@ -19,6 +19,18 @@ def test_provider_defaults_to_local_ollama(mock_openai_client_class, monkeypatch
 
 
 @patch("receipt_ocr.providers.OpenAI")
+def test_provider_uses_ollama_base_url(mock_openai_client_class, monkeypatch):
+    monkeypatch.setenv("OLLAMA_BASE_URL", "http://ollama:11434/v1")
+
+    provider = OpenAIProvider()
+
+    assert provider.base_url == "http://ollama:11434/v1"
+    mock_openai_client_class.assert_called_once_with(
+        api_key="ollama", base_url="http://ollama:11434/v1"
+    )
+
+
+@patch("receipt_ocr.providers.OpenAI")
 def test_get_response(mock_openai_client_class, dummy_image_path, mock_chat_completion):
     # Configure the mock OpenAI client that will be used by OpenAIProvider
     mock_openai_instance = MagicMock()
@@ -72,7 +84,7 @@ def test_get_response_api_error(mock_openai_client_class, dummy_image_path):
 
     with pytest.raises(Exception, match="API Error"):
         provider.get_response(
-            dummy_image_path, json_schema=dummy_json_schema, model="gpt-4o"
+            dummy_image_path, json_schema=dummy_json_schema, model="qwen2.5vl:3b"
         )
 
 
