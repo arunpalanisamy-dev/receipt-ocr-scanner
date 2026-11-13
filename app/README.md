@@ -105,8 +105,9 @@ Extract structured data from a receipt image.
 
 ## Configuration
 
-The API uses Ollama. For local development, `OLLAMA_BASE_URL` defaults to
-`http://localhost:11434/v1` and `OLLAMA_MODEL` defaults to `qwen2.5vl:3b`.
+The API uses Ollama's native HTTP API. For local development, `OLLAMA_BASE_URL`
+defaults to `http://localhost:11434` and `OLLAMA_MODEL` defaults to
+`qwen2.5vl:3b`.
 
 ## Development
 

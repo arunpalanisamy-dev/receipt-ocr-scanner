@@ -15,12 +15,12 @@ services:
   receipt-ocr-api:
     container_name: receipt-ocr-api
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: app/Dockerfile
     ports:
       - "8000:8000"
     environment:
-      OLLAMA_BASE_URL: http://ollama:11434/v1
+      OLLAMA_BASE_URL: http://ollama:11434
       OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen2.5vl:3b}
     depends_on:
       ollama:

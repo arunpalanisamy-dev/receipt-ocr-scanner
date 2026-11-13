@@ -6,9 +6,9 @@ import os
 
 from dotenv import load_dotenv
 
-from receipt_ocr.constants import _DEFAULT_OLLAMA_MODEL
-from receipt_ocr.processors import ReceiptProcessor
-from receipt_ocr.providers import OpenAIProvider
+from receipt_extraction.constants import _DEFAULT_OLLAMA_MODEL
+from receipt_extraction.processors import ReceiptProcessor
+from receipt_extraction.providers import OllamaProvider
 
 load_dotenv()
 
@@ -51,7 +51,7 @@ def main():
         }
 
     # Initialize the provider and parser
-    provider = OpenAIProvider()
+    provider = OllamaProvider()
 
     # Initialize the processor
     processor = ReceiptProcessor(provider)

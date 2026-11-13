@@ -45,7 +45,7 @@ The CLI prints extracted receipt data as JSON. The package can also be used from
 Python:
 
 ```python
-from receipt_ocr.processors import ReceiptProcessor
+from receipt_extraction.processors import ReceiptProcessor
 
 processor = ReceiptProcessor()
 schema = {
@@ -81,8 +81,15 @@ Docker-based Tesseract API. See [the structured API README](app/README.md) and
 Run the test suites from the repository root:
 
 ```bash
-uv run pytest tests/receipt_ocr
+uv run pytest tests/receipt_extraction
 uv run pytest tests/tesseract_ocr
+```
+
+Run the Ollama end-to-end response-format checks with Ollama running and the
+default vision model installed:
+
+```bash
+uv run python tests/e2e/run_ollama_response_formats.py
 ```
 
 Run Ruff checks and formatting:

@@ -1,9 +1,9 @@
 """Coordinate model inference and parsing for receipt images."""
 
-from typing import Any, Dict, Optional
+from typing import Any
 
-from receipt_ocr.parsers import ReceiptParser
-from receipt_ocr.providers import OpenAIProvider
+from receipt_extraction.parsers import ReceiptParser
+from receipt_extraction.providers import LLMProvider, OllamaProvider
 
 
 class ReceiptProcessor:
@@ -11,20 +11,20 @@ class ReceiptProcessor:
 
     def __init__(
         self,
-        provider: Optional[OpenAIProvider] = None,
-        parser: Optional[ReceiptParser] = None,
+        provider: LLMProvider | None = None,
+        parser: ReceiptParser | None = None,
     ):
         """Initialize the receipt processor."""
-        self.provider = provider or OpenAIProvider()
+        self.provider = provider or OllamaProvider()
         self.parser = parser or ReceiptParser()
 
     def process_receipt(
         self,
         image_path: str,
-        json_schema: Dict[str, Any],
-        model: Optional[str] = None,
-        response_format_type: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        json_schema: dict[str, Any],
+        model: str | None = None,
+        response_format_type: str | None = None,
+    ) -> dict[str, Any]:
         """Process a receipt image and return a structured JSON object.
 
         Args:
@@ -39,5 +39,4 @@ class ReceiptProcessor:
         response = self.provider.get_response(
             image_path, json_schema, model, response_format_type
         )
-        content = response.choices[0].message.content
-        return self.parser.parse(content)
+        return self.parser.parse(response)

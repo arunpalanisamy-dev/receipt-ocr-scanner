@@ -6,15 +6,15 @@ FROM python:3.12-slim@sha256:ddb0207ae1f0356c2b724d740769b0c5f5f51cc54a0525178f7
 # Install uv.
 COPY --from=uv /uv /uvx /bin/
 
-# Copy the application into the container.
-COPY . /app
+# Copy the repository so the API can install the local receipt-ocr package.
+COPY . /workspace
 
 # Install the application dependencies.
-WORKDIR /app
+WORKDIR /workspace/app
 RUN uv sync --frozen --no-cache
 
 # Set the PATH to include the virtual environment binaries.
-ENV PATH="/app/.venv/bin:$PATH"
+ENV PATH="/workspace/app/.venv/bin:$PATH"
 
 # Run the application.
 CMD ["fastapi", "run", "server.py", "--port", "8000", "--host", "0.0.0.0"]

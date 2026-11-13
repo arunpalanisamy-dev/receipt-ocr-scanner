@@ -5,17 +5,17 @@ import os
 from typing import Optional
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, UploadFile, Form
+from fastapi import FastAPI, Form, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
 
-from receipt_ocr.processors import ReceiptProcessor
-from receipt_ocr.providers import OpenAIProvider
+from receipt_extraction.processors import ReceiptProcessor
+from receipt_extraction.providers import OllamaProvider
 
 load_dotenv()
 
 # Initialize processor once (not on each request)
 processor = ReceiptProcessor(
-    OpenAIProvider(base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434/v1"))
+    OllamaProvider(base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"))
 )
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5vl:3b")
 
